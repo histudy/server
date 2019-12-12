@@ -1,0 +1,29 @@
+- name: Webサーバーのセットアップ
+  hosts: web
+  become: true
+  gather_facts: true
+  pre_tasks:
+    - name: 依存パッケージのインストール
+      apt:
+        name: python-apt
+    - name: キャッシュの更新
+      apt:
+        update_cache: true
+  post_tasks:
+    - name: 未使用のパッケージを削除
+      apt:
+        autoremove: true
+  tasks:
+    - name: ufwのインストール
+      apt:
+        name: ufw
+    - name: ログイン攻撃の制限
+      ufw:
+        rule: allow
+        port: ssh
+        proto: tcp
+    - name: ufwの有効化とデフォルトのポリシーの設定
+      ufw:
+        state: enabled
+        logging: "on"
+        default: deny
