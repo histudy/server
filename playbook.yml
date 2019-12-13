@@ -14,6 +14,9 @@
       apt:
         autoremove: true
   tasks:
+    - name: ホスト名の設定
+      hostname:
+        name: "{{ inventory_hostname }}"
     - name: ufwのインストール
       apt:
         name: ufw
@@ -27,3 +30,54 @@
         state: enabled
         logging: "on"
         default: deny
+    - name: etckeeperのインストール
+      apt:
+        name: etckeeper
+    - name: backportsリポジトリを追加
+      apt_repository:
+        repo: 'deb http://ftp.debian.org/debian {{ ansible_distribution_release }}-backports main'
+        filename: backports
+    - name: fail2banのインストール
+      apt:
+        name: fail2ban
+    # fail2banの設定
+    # デフォオルトで「/etc/fail2ban/jail.d/defaults-debian.conf」に以下の記載が存在するため特に設定は行わず
+    # ```
+    # [sshd]
+    # enabled = true
+    # ```
+    - name: デフォルトリリースをbackportsに設定
+      lineinfile:
+        dest: /etc/apt/apt.conf.d/99target
+        regexp: '^APT::Default-Release '
+        line: 'APT::Default-Release {{ ansible_distribution_release }}-backports;'
+        create: true
+    - name: mackerelリポジトリのaptキーを追加
+      apt_key:
+        url: "https://mackerel.io/file/cert/GPG-KEY-mackerel-v2"
+    - name: mackerelリポジトリを追加
+      apt_repository:
+        repo: "deb http://apt.mackerel.io/v2/ mackerel contrib"
+        filename: mackerel
+    - name: Mackerel関連パッケージのインストール
+      apt:
+        name:
+          - mackerel-agent
+          - mackerel-agent-plugins
+          - mackerel-check-plugins
+          - mkr
+    - name: MackerelのAPIキーを設定
+      lineinfile:
+        path: /etc/mackerel-agent/mackerel-agent.conf
+        regexp: "^(#\\s*)?apikey\\s*="
+        line: 'apikey = "{{ mackerel_api_key }}"'
+    - name: mackerel-agentの有効化および起動
+      systemd:
+        name: mackerel-agent
+        enabled: true
+        state: started
+    - name: fail2banの有効化および起動
+      systemd:
+        name: fail2ban
+        enabled: true
+        state: started
