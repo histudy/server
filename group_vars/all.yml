@@ -2,3 +2,6 @@ mackerel_api_key: "{{ lookup('env', 'MACKEREL_API_KEY') }}"
 
 nginx_dh_key_bit: 2048
 nginx_dh_key_path: /etc/nginx/dhparam.pem
+
+
+sudo_requre_password: false

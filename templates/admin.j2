@@ -1,0 +1,2 @@
+# {{ ansible_managed }}
+%adm ALL=(ALL:ALL) {{ 'ALL' if sudo_requre_password else 'NOPASSWD:ALL' }}
