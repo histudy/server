@@ -71,6 +71,27 @@
         path: /etc/mackerel-agent/mackerel-agent.conf
         regexp: "^(#\\s*)?apikey\\s*="
         line: 'apikey = "{{ mackerel_api_key }}"'
+    - name: Webサーバーのインストール
+      apt:
+        name: nginx
+    - name: Diffie-Hellmanパラメーターの生成
+      openssl_dhparam:
+        path: "{{ nginx_dh_key_path }}"
+        size: "{{ nginx_dh_key_bit }}"
+    - name: httpおよびhttpsポートを解放
+      ufw:
+        rule: allow
+        name: "WWW Full"
+    - name: SSL(Let's Encrypt)関連パッケージのインストール
+      apt:
+        name:
+          - dehydrated
+          - lexicon
+    - name: Nginxの有効化および起動
+      systemd:
+        name: nginx
+        enabled: true
+        state: started
     - name: mackerel-agentの有効化および起動
       systemd:
         name: mackerel-agent
