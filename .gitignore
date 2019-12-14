@@ -1,5 +1,9 @@
 ### Ansible ###
 *.retry
 
+### Testinfra ###
+__pycache__/
+.pytest_cache/
+
 ### direnv
 .envrc

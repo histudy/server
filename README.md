@@ -11,3 +11,12 @@ server
 | 環境変数名       | 内容                                                  |
 | ---------------- | ----------------------------------------------------- |
 | MACKEREL_API_KEY | [Mackerel](https://mackerel.io/)のAPIキーを設定します |
+
+テスト
+----------------------
+
+```
+py.test --hosts='ansible://all' -v tests/test_default.py
+```
+
+※要[testinfra](https://testinfra.readthedocs.io/)
