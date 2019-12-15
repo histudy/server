@@ -160,3 +160,9 @@
       loop_control:
         label: "{{ item.name }}"
       tags: user
+    - name: ドキュメントルートのアクセス権を変更
+      file:
+        path: /var/www/html
+        group: webadmin
+        owner: root
+        mode: "0775"
