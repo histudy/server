@@ -7,3 +7,20 @@ dehydrated_domains:
     domains:
       - histudy.jp
       - "*.histudy.jp"
+
+dehydrated_hook_initialize: |
+  export PROVIDER=sakuracloud
+  export LEXICON_SAKURACLOUD_USERNAME={{ lookup('env', 'LEXICON_SAKURACLOUD_USERNAME') }}
+  export LEXICON_SAKURACLOUD_TOKEN={{ lookup('env', 'LEXICON_SAKURACLOUD_TOKEN') }}
+
+dehydrated_hook_deploy_challenge: |
+  lexicon ${PROVIDER} create ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}"
+  sleep 30
+
+dehydrated_hook_clean_challenge: |
+  lexicon ${PROVIDER} delete ${DOMAIN} TXT --name="_acme-challenge.${DOMAIN}." --content="${TOKEN_VALUE}"
+
+dehydrated_hook_deploy_cert: |
+  if [ -e /lib/systemd/system/nginx.service ]; then
+    /bin/systemctl reload nginx
+  fi
