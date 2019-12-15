@@ -23,6 +23,13 @@ def test_nginx_is_installed(host):
 
 
 @pytest.mark.parametrize("name", [
+    "redirect_https.conf",
+])
+def test_nginx_snippet_exists(host, name):
+    assert host.file('/etc/nginx/snippets/' + name).exists
+
+
+@pytest.mark.parametrize("name", [
     "dehydrated",
     "lexicon",
 ])

@@ -13,6 +13,15 @@
     - name: 未使用のパッケージを削除
       apt:
         autoremove: true
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+    - name: reload nginx
+      systemd:
+        name: nginx
+        state: reloaded
   tasks:
     - name: ホスト名の設定
       hostname:
@@ -89,6 +98,30 @@
       openssl_dhparam:
         path: "{{ nginx_dh_key_path }}"
         size: "{{ nginx_dh_key_bit }}"
+    - name: スニペットの流し込み
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/nginx/snippets/{{ item | basename }}"
+      with_fileglob:
+        - "files/nginx/snippets/*.conf"
+    - name: Nginxの設定
+      template:
+        src: nginx/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: restart nginx
+    - name: バーチャルホストの設定
+      template:
+        src: vhost.j2
+        dest: "/etc/nginx/sites-available/{{ item.name | default(item.server_name) }}"
+      loop: "{{ nginx_vhosts | default([]) }}"
+      notify: reload nginx
+    - name: バーチャルホストの有効化/無効化
+      file:
+        path: /etc/nginx/sites-enabled/{{ item.name | default(item.server_name) }}
+        src: "{{ '/etc/nginx/sites-available/' + item.name | default(item.server_name) if item.state | default(true) else omit }}"
+        state: "{{ 'link' if item.state | default(true) else 'absent' }}"
+      loop: "{{ nginx_vhosts | default([]) }}"
+      notify: reload nginx
     - name: httpおよびhttpsポートを解放
       ufw:
         rule: allow
