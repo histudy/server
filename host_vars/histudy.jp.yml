@@ -1,0 +1,9 @@
+dehydrated_cfg:
+  challengetype: dns-01
+  contact_email: admin@mail.histudy.jp
+
+dehydrated_domains:
+  - name: histudy.jp
+    domains:
+      - histudy.jp
+      - "*.histudy.jp"
