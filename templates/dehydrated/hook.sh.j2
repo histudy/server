@@ -70,7 +70,7 @@ sync_cert() {
     # Simple example: sync the files before symlinking them
     # sync "${KEYFILE}" "${CERTFILE} "${FULLCHAINFILE}" "${CHAINFILE}" "${REQUESTFILE}"
 
-{{ dehydrated_hook_sync_cert | defailt('') }}
+{{ dehydrated_hook_sync_cert | default('') }}
 
 }
 
@@ -100,7 +100,7 @@ deploy_cert() {
     # cp "${KEYFILE}" "${FULLCHAINFILE}" /etc/nginx/ssl/; chown -R nginx: /etc/nginx/ssl
     # systemctl reload nginx
 
-{{ dehydrated_hook_deploy_cert | defailt('') }}
+{{ dehydrated_hook_deploy_cert | default('') }}
 
 }
 
@@ -124,7 +124,7 @@ deploy_ocsp() {
     # cp "${OCSPFILE}" /etc/nginx/ssl/; chown -R nginx: /etc/nginx/ssl
     # systemctl reload nginx
 
-{{ dehydrated_hook_deploy_ocsp | defailt('') }}
+{{ dehydrated_hook_deploy_ocsp | default('') }}
 
 }
 
