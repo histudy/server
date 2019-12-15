@@ -1,0 +1,40 @@
+manage_groups:
+  - name: histudy
+  - name: kakogawa_infra
+  - name: webadmin
+
+manage_acounts:
+  - name: wate
+    admin: true
+    groups:
+      - histudy
+      - kakogawa_infra
+      - webadmin
+    authorized_keys:
+      - key: https://github.com/wate.keys
+      # - key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: sperkbird
+    admin: true
+    groups:
+      - histudy
+      - kakogawa_infra
+    authorized_keys:
+      - key: https://github.com/sperkbird.keys
+  - name: 223n
+    groups:
+      - histudy
+      - kakogawa_infra
+      - webadmin
+    authorized_keys:
+      - key: https://github.com/223n.keys
+  - name: fu7mu4
+    groups:
+      - histudy
+    authorized_keys:
+      - key: https://github.com/fu7mu4.keys
+  - name: nogajun
+    groups:
+      - histudy
+      - webadmin
+    authorized_keys:
+      - key: https://github.com/nogajun.keys

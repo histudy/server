@@ -110,3 +110,50 @@
         name: fail2ban
         enabled: true
         state: started
+    - name: グループの管理
+      group:
+        name: "{{ item.name }}"
+        state: "{{ 'absent' if item.removed | default(false) else 'present' }}"
+      loop: "{{ manage_groups }}"
+      loop_control:
+        label: "{{ item.name }}"
+      tags: group
+    - name: アカウントの存在状態ごとのアカウント一覧格納用変数を定義
+      set_fact:
+        present_acounts: "{{ manage_acounts | selectattr('removed', 'undefined') | list }}"
+        absent_acounts: "{{ manage_acounts | selectattr('removed', 'defined') | selectattr('removed') | list }}"
+      tags: always
+    - name: ユーザーアカウントの管理
+      user:
+        name: "{{ item.name }}"
+        password: "{{ item.password | default(omit) }}"
+        shell: "{{ item.shell | default(omit) }}"
+        groups: "{{ item.groups | default(omit) }}"
+        state: "{{ 'absent' if item.removed | default(false) else 'present' }}"
+        remove: "{{ item.removed | default(false) }}"
+      loop: "{{ manage_acounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      tags: user
+    - name: 各アカウントの公開鍵認証の管理
+      authorized_key:
+        user: "{{ item.0.name }}"
+        key: "{{ item.1.key }}"
+        state: "{{ 'absent' if item.1.removed | default(false) else 'present' }}"
+      loop: "{{ present_acounts | subelements('authorized_keys', skip_missing=True) }}"
+      loop_control:
+        label: "{{ item.0.name }}:{{ item.1.key }}"
+      tags: authorized_key
+    - name: 管理者アカウント一覧の変数を設定
+      set_fact:
+        admin_acounts: "{{ present_acounts | selectattr('admin', 'defined') | selectattr('admin') | list }}"
+      tags: always
+    - name: 各アカウントの管理者グループの割り当て
+      user:
+        name: "{{ item.name }}"
+        groups: adm
+        append: true
+      loop: "{{ admin_acounts }}"
+      loop_control:
+        label: "{{ item.name }}"
+      tags: user

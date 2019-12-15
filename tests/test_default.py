@@ -46,3 +46,33 @@ def test_mackerel_running_and_enabled(host):
     service = host.service("mackerel-agent")
     assert service.is_running
     assert service.is_enabled
+
+
+@pytest.mark.parametrize("name", [
+    "histudy",
+    "kakogawa_infra",
+    "webadmin"
+])
+def test_group_exists(host, name):
+    group = host.group(name)
+    assert group.exists
+
+
+@pytest.mark.parametrize("name", [
+    "wate",
+    "sperkbird",
+    "223n",
+    "fu7mu4",
+    "nogajun",
+])
+def test_user_exists(host, name):
+    user = host.user(name)
+    assert user
+
+@pytest.mark.parametrize("name", [
+    "wate",
+    "sperkbird",
+])
+def test_admin_user(host, name):
+    user = host.user(name)
+    assert 'adm' in user.groups
