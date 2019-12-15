@@ -111,6 +111,10 @@
         src: dehydrated/hook.sh.j2
         dest: "/etc/dehydrated/hook.sh"
         mode: "0755"
+    - name: Let's Encryptアカウントの登録
+      command: /usr/bin/dehydrated --register --accept-terms
+      args:
+        creates: /var/lib/dehydrated/accounts
     - name: Nginxの有効化および起動
       systemd:
         name: nginx
