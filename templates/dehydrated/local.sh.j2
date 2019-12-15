@@ -1,0 +1,24 @@
+
+CA="{{ dehydrated_cfg.ca | default('https://acme-v02.api.letsencrypt.org/directory') }}"
+OLDCA={{ dehydrated_cfg.oldca | default('') }}
+CHALLENGETYPE="{{ dehydrated_cfg.challengetype | default('http-01') }}"
+CURL_OPTS={{ dehydrated_cfg.curl_opts | default('') }}
+HOOK=/etc/dehydrated/hook.sh
+HOOK_CHAIN="{{ dehydrated_cfg.hook_chain | default('no') }}"
+RENEW_DAYS="{{ dehydrated_cfg.renew_days | default('30') }}"
+KEYSIZE="{{ dehydrated_cfg.keysize | default('4096') }}"
+PRIVATE_KEY_RENEW="{{ dehydrated_cfg.private_key_renew | default('yes') }}"
+PRIVATE_KEY_ROLLOVER="{{ dehydrated_cfg.private_key_rollover | default('no') }}"
+KEY_ALGO={{ dehydrated_cfg.key_algo | default('rsa') }}
+OPENSSL={{ dehydrated_cfg.openssl | default('openssl') }}
+OPENSSL_CNF={{ dehydrated_cfg.openssl_cnf default('') }}
+CONTACT_EMAIL={{ dehydrated_cfg.contact_email | default('') }}
+OCSP_MUST_STAPLE="{{ dehydrated_cfg.dehydrated_cfg | default('no') }}"
+OCSP_FETCH="{{ dehydrated_cfg.ocsp_fetch | default('no') }}"
+OCSP_DAYS={{ dehydrated_cfg.ocsp_days | default('5') }}
+IP_VERSION={{ dehydrated_cfg.ip_version | default('') }}
+CHAINCACHE={{ dehydrated_cfg.chancache | default('') }}
+AUTO_CLEANUP="{{ dehydrated_cfg.auto_cleanup | default('no') }}"
+DEHYDRATED_USER={{ dehydrated_cfg.user | default('') }}
+DEHYDRATED_GROUP={{ dehydrated_cfg.group | default('') }}
+API="{{ dehydrated_cfg.api | default('auto') }}"
