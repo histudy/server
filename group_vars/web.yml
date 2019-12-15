@@ -12,7 +12,6 @@ manage_acounts:
       - webadmin
     authorized_keys:
       - key: https://github.com/wate.keys
-      # - key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
   - name: sperkbird
     admin: true
     groups:

@@ -38,13 +38,22 @@
         state: enabled
         logging: "on"
         default: deny
-    - name: etckeeperのインストール
-      apt:
-        name: etckeeper
     - name: backportsリポジトリを追加
       apt_repository:
         repo: 'deb http://ftp.debian.org/debian {{ ansible_distribution_release }}-backports main'
         filename: backports
+    - name: デフォルトリリースをbackportsに設定
+      lineinfile:
+        dest: /etc/apt/apt.conf.d/99target
+        regexp: '^APT::Default-Release '
+        line: 'APT::Default-Release {{ ansible_distribution_release }}-backports;'
+        create: true
+    - name: etckeeperのインストール
+      apt:
+        name: etckeeper
+    - name: bash-completionのインストール
+      apt:
+        name: bash-completion
     - name: fail2banのインストール
       apt:
         name: fail2ban
@@ -54,12 +63,6 @@
     # [sshd]
     # enabled = true
     # ```
-    - name: デフォルトリリースをbackportsに設定
-      lineinfile:
-        dest: /etc/apt/apt.conf.d/99target
-        regexp: '^APT::Default-Release '
-        line: 'APT::Default-Release {{ ansible_distribution_release }}-backports;'
-        create: true
     - name: mackerelリポジトリのaptキーを追加
       apt_key:
         url: "https://mackerel.io/file/cert/GPG-KEY-mackerel-v2"
@@ -127,7 +130,7 @@
       user:
         name: "{{ item.name }}"
         password: "{{ item.password | default(omit) }}"
-        shell: "{{ item.shell | default(omit) }}"
+        shell: "{{ item.shell | default('/bin/bash') }}"
         groups: "{{ item.groups | default(omit) }}"
         state: "{{ 'absent' if item.removed | default(false) else 'present' }}"
         remove: "{{ item.removed | default(false) }}"

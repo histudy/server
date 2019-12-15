@@ -58,16 +58,17 @@ def test_group_exists(host, name):
     assert group.exists
 
 
-@pytest.mark.parametrize("name", [
-    "wate",
-    "sperkbird",
-    "223n",
-    "fu7mu4",
-    "nogajun",
+@pytest.mark.parametrize("name,shell", [
+    ("wate", "/bin/bash"),
+    ("sperkbird", "/bin/bash"),
+    ("223n", "/bin/bash"),
+    ("fu7mu4", "/bin/bash"),
+    ("nogajun", "/bin/bash"),
 ])
-def test_user_exists(host, name):
+def test_user_exists(host, name, shell):
     user = host.user(name)
     assert user
+    assert user.shell == shell
 
 @pytest.mark.parametrize("name", [
     "wate",
