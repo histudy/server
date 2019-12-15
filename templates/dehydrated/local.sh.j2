@@ -1,4 +1,3 @@
-
 CA="{{ dehydrated_cfg.ca | default('https://acme-v02.api.letsencrypt.org/directory') }}"
 OLDCA={{ dehydrated_cfg.oldca | default('') }}
 CHALLENGETYPE="{{ dehydrated_cfg.challengetype | default('http-01') }}"
@@ -11,7 +10,7 @@ PRIVATE_KEY_RENEW="{{ dehydrated_cfg.private_key_renew | default('yes') }}"
 PRIVATE_KEY_ROLLOVER="{{ dehydrated_cfg.private_key_rollover | default('no') }}"
 KEY_ALGO={{ dehydrated_cfg.key_algo | default('rsa') }}
 OPENSSL={{ dehydrated_cfg.openssl | default('openssl') }}
-OPENSSL_CNF={{ dehydrated_cfg.openssl_cnf default('') }}
+OPENSSL_CNF={{ dehydrated_cfg.openssl_cnf | default('') }}
 CONTACT_EMAIL={{ dehydrated_cfg.contact_email | default('') }}
 OCSP_MUST_STAPLE="{{ dehydrated_cfg.dehydrated_cfg | default('no') }}"
 OCSP_FETCH="{{ dehydrated_cfg.ocsp_fetch | default('no') }}"
