@@ -98,6 +98,19 @@
         name:
           - dehydrated
           - lexicon
+    - name: dehydratedの設定
+      template:
+        src: dehydrated/local.sh.j2
+        dest: /etc/dehydrated/conf.d/local.sh
+    - name: ドメインテキストの設定
+      template:
+        src: dehydrated/domains.txt.j2
+        dest: /etc/dehydrated/domains.txt
+    - name: フックスクリプトの設定
+      template:
+        src: dehydrated/hook.sh.j2
+        dest: "/etc/dehydrated/hook.sh"
+        mode: "0755"
     - name: Nginxの有効化および起動
       systemd:
         name: nginx
