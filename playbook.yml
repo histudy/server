@@ -30,7 +30,7 @@
         name: sudo
     - name: 管理者グループのsudoの設定
       template:
-        src: admin.j2
+        src: sudo/admin.j2
         dest: /etc/sudoers.d/admin
         validate: 'visudo -cf %s'
     - name: ufwの有効化とデフォルトのポリシーの設定
@@ -166,3 +166,6 @@
         group: webadmin
         owner: root
         mode: "0775"
+    - name: vimのインストール
+      apt:
+        name: vim
