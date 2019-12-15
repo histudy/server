@@ -6,6 +6,7 @@ manage_groups:
 manage_acounts:
   - name: wate
     admin: true
+    password: "{{ lookup('csvfile', 'wate file=secret/password.csv delimiter=,') }}"
     groups:
       - histudy
       - kakogawa_infra
@@ -14,12 +15,14 @@ manage_acounts:
       - key: https://github.com/wate.keys
   - name: sperkbird
     admin: true
+    password: "{{ lookup('csvfile', 'sperkbird file=secret/password.csv delimiter=,') }}"
     groups:
       - histudy
       - kakogawa_infra
     authorized_keys:
       - key: https://github.com/sperkbird.keys
   - name: 223n
+    password: "{{ lookup('csvfile', '223n file=secret/password.csv delimiter=,') }}"
     groups:
       - histudy
       - kakogawa_infra
@@ -27,11 +30,13 @@ manage_acounts:
     authorized_keys:
       - key: https://github.com/223n.keys
   - name: fu7mu4
+    password: "{{ lookup('csvfile', 'fu7mu4 file=secret/password.csv delimiter=,') }}"
     groups:
       - histudy
     authorized_keys:
       - key: https://github.com/fu7mu4.keys
   - name: nogajun
+    password: "{{ lookup('csvfile', 'nogajun file=secret/password.csv delimiter=,') }}"
     groups:
       - histudy
       - webadmin

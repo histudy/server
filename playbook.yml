@@ -129,7 +129,7 @@
     - name: ユーザーアカウントの管理
       user:
         name: "{{ item.name }}"
-        password: "{{ item.password | default(omit) }}"
+        password: "{{ item.password | password_hash('sha512') if item.password is defined else omit }}"
         shell: "{{ item.shell | default('/bin/bash') }}"
         groups: "{{ item.groups | default(omit) }}"
         state: "{{ 'absent' if item.removed | default(false) else 'present' }}"
