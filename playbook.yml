@@ -111,7 +111,7 @@
       notify: restart nginx
     - name: バーチャルホストの設定
       template:
-        src: vhost.j2
+        src: nginx/vhost.j2
         dest: "/etc/nginx/sites-available/{{ item.name | default(item.server_name) }}"
       loop: "{{ nginx_vhosts | default([]) }}"
       notify: reload nginx
