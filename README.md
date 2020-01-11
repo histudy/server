@@ -11,8 +11,8 @@ server
 | 環境変数名                   | 内容                                                                                      |
 | ---------------------------- | ----------------------------------------------------------------------------------------- |
 | MACKEREL_API_KEY             | [Mackerel](https://mackerel.io/)のAPIキーを設定します                                     |
-| LEXICON_SAKURACLOUD_USERNAME | [さくらのクラウド](https://cloud.sakura.ad.jp/)のアクセストークンを設定します。<br>この設定はLet's EncryptのDNS認証で利用します。             |
-| LEXICON_SAKURACLOUD_TOKEN    | [さくらのクラウド](https://cloud.sakura.ad.jp/)のアクセストークンシークレットを設定します。<br>この設定はLet's EncryptのDNS認証で利用します。 |
+| LEXICON_SAKURACLOUD_TOKEN | [さくらのクラウド](https://cloud.sakura.ad.jp/)のアクセストークンを設定します。<br>この設定はLet's EncryptのDNS認証で利用します。             |
+| LEXICON_SAKURACLOUD_SECRET    | [さくらのクラウド](https://cloud.sakura.ad.jp/)のアクセストークンシークレットを設定します。<br>この設定はLet's EncryptのDNS認証で利用します。 |
 
 
 テスト

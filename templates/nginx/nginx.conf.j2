@@ -51,8 +51,8 @@ http {
     # SSL Settings
     ##
 
-    ssl_protocols {{ nginx_cfg.http.ssl.protocols|join(' ') }};
-    ssl_ciphers "{{ nginx_cfg.http.ssl.ciphers|join(':') }}";
+    ssl_protocols {{ nginx_cfg.http.ssl.protocols | join(' ') }};
+    ssl_ciphers "{{ nginx_cfg.http.ssl.ciphers | join(':') }}";
     ssl_prefer_server_ciphers {{ 'on' if nginx_cfg.http.ssl.prefer_server_ciphers else 'off' }};
     ssl_session_timeout {{ nginx_cfg.http.ssl.session_timeout }};
     ssl_session_cache {{ nginx_cfg.http.ssl.session_cache }};
