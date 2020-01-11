@@ -76,34 +76,6 @@ http {
     gzip_types {{ nginx_cfg.http.gzip_types | join(' ') }};
 
     ##
-    # SSL Default Settings
-    ##
-    ssl off;
-
-    ssl_protocols {{ nginx_cfg.http.ssl.protocols | join(' ') }};
-    ssl_ciphers {{ nginx_cfg.http.ssl.ciphers | join(':') }};
-    ssl_prefer_server_ciphers {{ 'on' if nginx_cfg.http.ssl.prefer_server_ciphers else 'off' }};
-
-    {% if nginx_cfg.http.ssl.dhparam is defined -%}
-    ssl_dhparam {{ nginx_cfg.http.ssl.dhparam }};
-    {% endif %}
-    {% if nginx_cfg.http.ssl.session_timeout is defined -%}
-    ssl_session_timeout {{ nginx_cfg.http.ssl.session_timeout }};
-    {% endif %}
-    {% if nginx_cfg.http.ssl.session_cache is defined -%}
-    ssl_session_cache {{ nginx_cfg.http.ssl.session_cache }};
-    {% endif %}
-    {% if nginx_cfg.http.http.ssl.session_tickets is defined -%}
-    ssl_session_tickets {{ 'on' if nginx_cfg.http.http.ssl.session_tickets else 'off' }};
-    {% endif %}
-    {% if nginx_cfg.http.ssl.stapling is defined -%}
-    ssl_stapling {{ 'on' if nginx_cfg.http.ssl.stapling else 'off' }};
-    {% endif %}
-    {% if nginx_cfg.http.ssl.stapling_verify is defined -%}
-    ssl_stapling_verify {{ 'on' if nginx_cfg.http.ssl.stapling_verify else 'off' }};
-    {% endif %}
-
-    ##
     # Virtual Host Configs
     ##
 
